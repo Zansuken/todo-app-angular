@@ -1,13 +1,16 @@
+import dotenv from 'dotenv';
+dotenv.config()
 import express from 'express';
 import mongoose from 'mongoose';
-import { taskModel, userModel } from './schemas.mjs';
-import { completeTask, deleteTask, getAllTasks } from './tasksUtils.mjs';
-import { addNewUser, getAllUsers, switchTheme } from './usersUtils.mjs';
+import { getAllTasks } from './tasksUtils.mjs';
+import { getAllUsers, switchTheme } from './usersUtils.mjs';
 
 const app = express();
 const PORT = process.env.PORT || 6300;
+const URI_ID = process.env.URI_ID;
+const MONGO_URI = `mongodb+srv://admin:${URI_ID}@cluster0.2wyny.mongodb.net/users`;
 
-mongoose.connect('mongodb+srv://admin:GD2FGodbYZJ4KXmF@cluster0.2wyny.mongodb.net/users', { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
+mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
   if (err) {
     console.log('Error connecting to MongoDB Atlas...', err);
   } else {
