@@ -42,4 +42,4 @@ testem.log
 Thumbs.db
 
 # Connection URI
-.server/.env
+.env
