@@ -1,9 +1,8 @@
 import dotenv from 'dotenv';
-dotenv.config()
 import express from 'express';
 import mongoose from 'mongoose';
-import { getAllTasks } from './tasksUtils.mjs';
-import { getAllUsers, switchTheme } from './usersUtils.mjs';
+import router from './routes.mjs';
+dotenv.config()
 
 const app = express();
 const PORT = process.env.PORT || 6300;
@@ -18,25 +17,7 @@ mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true },
   }
 });
 
-app.get('/', (req, res) => {
-  res.send('Hello World');
-});
-
-app.get('/users', (req, res) => {
-  switchTheme({
-    id: '6270e56ffad563f64eac649c',
-    theme: false ? true : false,
-  });
-  getAllUsers().then((users) => {
-    res.send(users);
-  });
-});
-
-app.get('/tasks', (req, res) => {
-  getAllTasks().then((tasks) => {
-    res.send(tasks);
-  });
-});
+app.use(router)
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
