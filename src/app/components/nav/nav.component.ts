@@ -9,6 +9,11 @@ export class NavComponent implements OnInit {
 
   constructor() { }
 
+  backgroundImg = {
+    url: './assets/images/bg-desktop-dark.jpg',
+    alt: 'Background image'
+  }
+
   ngOnInit(): void {
   }
 
