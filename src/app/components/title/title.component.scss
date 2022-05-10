@@ -1,0 +1,28 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 550px;
+  z-index: 2;
+
+  h1 {
+    color: #fff;
+    letter-spacing: 1rem;
+    font-size: 27.2px;
+  }
+
+  button {
+    appearance: none;
+    border: none;
+    background: none;
+
+    img {
+      cursor: pointer;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
