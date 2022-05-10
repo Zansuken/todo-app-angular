@@ -1,0 +1,7 @@
+<form action="post" (submit)="createTask($event)">
+  <div class="check-wrapper" [class.ready]="ready">
+    <img *ngIf="ready" src="./assets/images/icon-add.svg" alt="ready to send icon">
+  </div>
+
+  <input name="title" type="text" (input)="handleSearchChange($event)" placeholder="Add a new task...">
+</form>
