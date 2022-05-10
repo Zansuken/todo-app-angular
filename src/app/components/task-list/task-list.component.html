@@ -1,0 +1,30 @@
+<ul>
+  <li *ngFor="let task of taskService.newArray">
+    <div class="check-wrapper" [class.complete]="task.completed" (click)="taskService.completeTask(task)">
+      <img *ngIf="task.completed" src="./assets/images/icon-check.svg" alt="completed icon">
+    </div>
+    <span (click)="toggleUpdatingState(task, $event)">{{task.title}}</span>
+    <button class="delete" (click)="taskService.deleteTask(task)"><img src="./assets/images/icon-cross.svg"
+        alt="delete button"></button>
+  </li>
+  <li class="bottom-line">
+    <span class="items-left">{{taskService.tasks.length}} item(s) left</span>
+    <button class="delete-completed" (click)="taskService.clearCompleted()">Clear
+      completed</button>
+  </li>
+</ul>
+<div *ngIf="isUpdating" class="update-task" [style]="{
+  top: cursorPosition.y,
+  left: cursorPosition.x
+}">
+  <input type="text" [placeholder]="activeTask.title" (input)="taskService.updateTaskTitle(activeTask, $event)"
+    (keydown.enter)="validateUpdate()" />
+</div>
+<div class="filters">
+  <button class="{{taskService.activeFilter === 'all' ? 'active-button' : ''}}"
+    (click)="taskService.filteredTasks('all')">All</button>
+  <button class="{{taskService.activeFilter === 'active' ? 'active-button' : ''}}"
+    (click)="taskService.filteredTasks('active')">Active</button>
+  <button class="{{taskService.activeFilter === 'completed' ? 'active-button' : ''}}"
+    (click)="taskService.filteredTasks('completed')">Completed</button>
+</div>
