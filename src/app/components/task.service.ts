@@ -20,6 +20,8 @@ export class TaskService {
   constructor(
     private httpClient: HttpClient) { }
 
+  url: string = 'https://zansuken-todo-server.herokuapp.com/tasks';
+
   tasks: any[] = [];
 
   activeFilter: string = 'all';
@@ -51,11 +53,11 @@ export class TaskService {
   }
 
   async getTasks(): Promise<Task[]> {
-    return lastValueFrom(this.httpClient.get<Task[]>('http://localhost:6300/tasks'));
+    return lastValueFrom(this.httpClient.get<Task[]>(this.url));
   }
 
   async createTask(task: Task): Promise<Task> {
-    const newTask = await lastValueFrom(this.httpClient.post<Task>('http://localhost:6300/tasks', task))
+    const newTask = await lastValueFrom(this.httpClient.post<Task>(this.url, task))
 
     this.tasks.push(newTask);
 
@@ -82,7 +84,7 @@ export class TaskService {
   }
 
   async updateTask(task: Task): Promise<Task> {
-    const updatedTask = await lastValueFrom(this.httpClient.put<Task>('http://localhost:6300/tasks/' + task._id, task))
+    const updatedTask = await lastValueFrom(this.httpClient.put<Task>(this.url + '/' + task._id, task))
 
     this.tasks = this.tasks.map(t => t._id === updatedTask._id ? updatedTask : t);
 
@@ -91,7 +93,7 @@ export class TaskService {
 
   async deleteTask(task: Task): Promise<Task> {
 
-    const deletedTask = await lastValueFrom(this.httpClient.delete<Task>('http://localhost:6300/tasks/' + task._id))
+    const deletedTask = await lastValueFrom(this.httpClient.delete<Task>(this.url + '/' + task._id))
 
     this.tasks = this.tasks.filter(t => t._id !== task._id);
     this.newArray = [...this.tasks];
