@@ -59,11 +59,18 @@ export class TaskService {
   async createTask(task: Task): Promise<Task> {
     const newTask = await lastValueFrom(this.httpClient.post<Task>(this.url, task))
 
-    this.tasks.push(newTask);
+    if (newTask.title && newTask.title?.length > 0) {
+      console.log(newTask.title);
 
-    this.newArray = [...this.tasks];
 
-    return newTask
+      this.tasks.push(newTask);
+
+      this.newArray = [...this.tasks];
+
+      return newTask
+    } else {
+      return task
+    }
   }
 
   async completeTask(task: Task): Promise<void> {
@@ -75,12 +82,18 @@ export class TaskService {
 
     const target: HTMLInputElement = event.target;
 
-    task.title = target.value;
-    task.updating = true;
-    await this.updateTask(task);
-    task.updating = false;
 
-    return task;
+    if (target.value.length > 0) {
+
+      task.title = target.value;
+      task.updating = true;
+      await this.updateTask(task);
+      task.updating = false;
+
+      return task;
+    } else {
+      return task;
+    }
   }
 
   async updateTask(task: Task): Promise<Task> {
