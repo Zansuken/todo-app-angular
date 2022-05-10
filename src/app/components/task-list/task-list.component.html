@@ -1,3 +1,10 @@
+<div *ngIf="isUpdating" class="update-task" [style]="{
+  top: cursorPosition.y,
+  left: cursorPosition.x
+}">
+  <input autofocus="on" type="text" [placeholder]="activeTask.title"
+    (input)="taskService.updateTaskTitle(activeTask, $event)" (keydown.enter)="validateUpdate()" />
+</div>
 <ul>
   <li *ngFor="let task of taskService.newArray">
     <div class="check-wrapper" [class.complete]="task.completed" (click)="taskService.completeTask(task)">
@@ -13,13 +20,6 @@
       completed</button>
   </li>
 </ul>
-<div *ngIf="isUpdating" class="update-task" [style]="{
-  top: cursorPosition.y,
-  left: cursorPosition.x
-}">
-  <input type="text" [placeholder]="activeTask.title" (input)="taskService.updateTaskTitle(activeTask, $event)"
-    (keydown.enter)="validateUpdate()" />
-</div>
 <div class="filters">
   <button class="{{taskService.activeFilter === 'all' ? 'active-button' : ''}}"
     (click)="taskService.filteredTasks('all')">All</button>

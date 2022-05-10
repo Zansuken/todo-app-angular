@@ -81,15 +81,18 @@ ul {
     background: #25273c;
     border-radius: 50%;
     position: absolute;
+    cursor: pointer;
   }
 
   &.complete {
     img {
       z-index: 5;
+      cursor: pointer;
     }
 
     &::after {
       background: linear-gradient(to right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+      cursor: pointer;
     }
   }
 }
@@ -106,12 +109,20 @@ button {
 }
 
 .update-task {
-  position: fixed;
+  position: relative;
   background: #25273c;
   color: #fff;
-  border: 1px solid #fff;
-  padding: 0.5rem;
+  border: none;
   border-radius: 5px;
+  height: 50px;
+  width: 100%;
+  display: flex;
+  margin: 1rem 0;
+
+  input {
+    flex: 1;
+    margin: 0 1rem;
+  }
 }
 
 .filters {
