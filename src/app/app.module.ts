@@ -9,8 +9,6 @@ import { HomeComponent } from './pages/home/home.component';
 import { TitleComponent } from './components/title/title.component';
 import { TaskListComponent } from './components/task-list/task-list.component';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from './in-memory-data.service';
 
 @NgModule({
   declarations: [
@@ -25,14 +23,7 @@ import { InMemoryDataService } from './in-memory-data.service';
   imports: [
     BrowserModule,
     AppRoutingModule, // CLI adds AppRoutingModule to the AppModule's imports array
-    HttpClientModule,
-
-    // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
-    // and returns simulated server responses.
-    // Remove it when a real server is ready to receive requests.
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    )
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
