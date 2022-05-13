@@ -1,24 +1,49 @@
 :host {
   position: relative;
-}
+  width: 100%;
+  max-width: 550px;
 
-input {
-  border: none;
-  background: #25273c;
-  caret-color: #fff;
-  color: #fff;
-
-  &:focus {
-    outline: none;
+  *,
+  *::after,
+  *::before {
+    transition: all 0.3s ease-in-out;
   }
 }
 
 ul {
   padding: 0;
-  width: 550px;
+  width: 100%;
   list-style: none;
-  background-color: #25273c;
   border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  &.dark {
+    background-color: #25273c;
+
+    span {
+      color: #fff;
+    }
+  }
+
+  &.light {
+    background-color: #fff;
+
+    li {
+      border-bottom: #777a923d solid 1px;
+    }
+
+    li:last-of-type {
+      border-bottom: none;
+    }
+
+    span {
+      color: #161722;
+    }
+
+    button {
+      background-color: #fff;
+    }
+  }
 
   li {
     display: flex;
@@ -49,13 +74,13 @@ ul {
     span {
       flex: none;
       padding: 0 1rem;
+      cursor: none;
     }
   }
 
 
   span {
     flex: 1;
-    color: #fff;
     cursor: pointer;
   }
 }
@@ -73,12 +98,10 @@ ul {
   border: none;
   margin-left: 1rem;
 
-
   &::after {
     content: "";
     width: 22px;
     height: 22px;
-    background: #25273c;
     border-radius: 50%;
     position: absolute;
     cursor: pointer;
@@ -97,6 +120,19 @@ ul {
   }
 }
 
+.check-wrapper.dark::after {
+  background: #25273c;
+}
+
+.check-wrapper.dark.complete::after,
+.check-wrapper.light.complete::after {
+  background: linear-gradient(to right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+}
+
+.check-wrapper.light::after {
+  background: #fff;
+}
+
 button {
   border: none;
   background: #25273c;
@@ -110,8 +146,6 @@ button {
 
 .update-task {
   position: relative;
-  background: #25273c;
-  color: #fff;
   border: none;
   border-radius: 5px;
   height: 50px;
@@ -122,6 +156,31 @@ button {
   input {
     flex: 1;
     margin: 0 1rem;
+    border: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.dark.update-task {
+  background: #25273c;
+
+  input {
+    background: #25273c;
+    color: #fff;
+    caret-color: #fff;
+  }
+}
+
+.light.update-task {
+  background: #fff;
+
+  input {
+    background: #fff;
+    color: #25273c;
+    caret-color: #3A7BFD;
   }
 }
 
@@ -132,7 +191,6 @@ button {
   width: 100%;
   height: 50px;
   padding: 0.5rem 0;
-  background-color: #25273c;
   border-radius: 5px;
 
   button {
@@ -142,5 +200,18 @@ button {
     &.active-button {
       color: #3A7BFD;
     }
+  }
+}
+
+.filters.dark {
+  background-color: #25273c;
+}
+
+.filters.light {
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  button {
+    background: #fff;
   }
 }

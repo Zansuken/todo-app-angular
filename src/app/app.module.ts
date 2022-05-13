@@ -9,6 +9,10 @@ import { HomeComponent } from './pages/home/home.component';
 import { TitleComponent } from './components/title/title.component';
 import { TaskListComponent } from './components/task-list/task-list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthComponent } from './pages/auth/auth.component';
+import { StoreModule } from '@ngrx/store';
+import { themeReducer } from './theme.reducer';
+import { ThemeComponent } from './theme/theme.component';
 
 @NgModule({
   declarations: [
@@ -19,11 +23,14 @@ import { HttpClientModule } from '@angular/common/http';
     HomeComponent,
     TitleComponent,
     TaskListComponent,
+    AuthComponent,
+    ThemeComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule, // CLI adds AppRoutingModule to the AppModule's imports array
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot({ theme: themeReducer }),
   ],
   providers: [],
   bootstrap: [AppComponent]

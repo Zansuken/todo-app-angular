@@ -1,13 +1,14 @@
-<div *ngIf="isUpdating" class="update-task" [style]="{
+<div *ngIf="isUpdating" [class]="'update-task' + ' ' + (theme$ | async)" [style]="{
   top: cursorPosition.y,
   left: cursorPosition.x
 }">
   <input autofocus="on" type="text" [placeholder]="activeTask.title"
     (input)="taskService.updateTaskTitle(activeTask, $event)" (keydown.enter)="validateUpdate()" />
 </div>
-<ul>
+<ul [class]="theme$ | async">
   <li *ngFor="let task of taskService.newArray">
-    <div class="check-wrapper" [class.complete]="task.completed" (click)="taskService.completeTask(task)">
+    <div [class]="'check-wrapper' + ' ' + (theme$ | async)" [class.complete]="task.completed"
+      (click)="taskService.completeTask(task)">
       <img *ngIf="task.completed" src="./assets/images/icon-check.svg" alt="completed icon">
     </div>
     <span (click)="toggleUpdatingState(task, $event)">{{task.title}}</span>
@@ -20,7 +21,7 @@
       completed</button>
   </li>
 </ul>
-<div class="filters">
+<div [class]="'filters' + ' ' + (theme$ | async)">
   <button class="{{taskService.activeFilter === 'all' ? 'active-button' : ''}}"
     (click)="taskService.filteredTasks('all')">All</button>
   <button class="{{taskService.activeFilter === 'active' ? 'active-button' : ''}}"

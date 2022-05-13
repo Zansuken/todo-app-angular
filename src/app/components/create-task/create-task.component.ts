@@ -1,4 +1,6 @@
 import { Component, OnInit, Output } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { TaskService, Task } from '../task.service';
 
 @Component({
@@ -8,10 +10,13 @@ import { TaskService, Task } from '../task.service';
 })
 export class CreateTaskComponent implements OnInit {
 
-  constructor(private taskService: TaskService) { }
+  theme$: Observable<string>
 
   ready: boolean = false;
 
+  constructor(private taskService: TaskService, private store: Store<{ theme: string }>) {
+    this.theme$ = this.store.select('theme');
+  }
 
 
   ngOnInit(): void {

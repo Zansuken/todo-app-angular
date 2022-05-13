@@ -1,0 +1,15 @@
+button {
+  width: 25px;
+  height: 25px;
+  border: none;
+  cursor: pointer;
+
+  &.dark {
+    background: url('../../assets/images/icon-sun.svg') no-repeat center center;
+  }
+
+  &.light {
+    background: url('../../assets/images/icon-moon.svg') no-repeat center center;
+  }
+
+}

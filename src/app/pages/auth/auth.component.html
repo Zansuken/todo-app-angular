@@ -1,0 +1,33 @@
+<header>
+  <app-title></app-title>
+</header>
+<main [class]="theme$ | async">
+  <div *ngIf="isLogin" [class]="'form-wrapper'">
+    <form name="Login" action="get" [class]="'login-form'" (submit)="userService">
+      <h1>Login</h1>
+      <div class="form-group">
+        <input type="text" name="username" placeholder="Username" />
+        <input type="password" name="password" placeholder="Password" />
+      </div>
+      <div class="submit-wrapper">
+        <input type="submit" value="Login" />
+      </div>
+    </form>
+    <button (click)="toggleView()" class="register-redirection-btn">Create an account</button>
+  </div>
+
+  <div *ngIf="!isLogin" [class]="'form-wrapper'">
+    <form name="Register" action="get" [class]="'register-form'">
+      <h1>Register</h1>
+      <div class="form-group">
+        <input type="text" name="username" placeholder="Username" />
+        <input type="password" name="password" placeholder="Password" />
+        <input type="password" name="retyped-password" placeholder="Retype password" />
+      </div>
+      <div class="submit-wrapper">
+        <input type="submit" value="Register" />
+      </div>
+    </form>
+    <button (click)="toggleView()" class="register-redirection-btn">Already have an account?</button>
+  </div>
+</main>

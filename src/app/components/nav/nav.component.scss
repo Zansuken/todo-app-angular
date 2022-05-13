@@ -1,9 +1,33 @@
+:host {
+  width: 100%;
+  max-width: 550px;
+
+  *,
+  *::after,
+  *::before {
+    transition: all 0.3s ease-in-out;
+  }
+}
+
 nav {
   position: relative;
   display: flex;
   height: 100%;
   align-items: flex-end;
   z-index: 2;
+  object-fit: cover;
+
+  &.dark {
+    background: url('../../../assets/images/bg-desktop-dark.jpg') no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  &.light {
+    background: url('../../../assets/images/bg-desktop-light.jpg') no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
 }
 
 ul {
@@ -14,7 +38,6 @@ ul {
   padding: 0.5rem 1rem 0;
   margin: 0;
   text-transform: uppercase;
-  color: red;
   z-index: 2;
   position: relative;
 
@@ -41,15 +64,4 @@ ul {
   a:visited {
     color: #FFF;
   }
-}
-
-img {
-  width: 100%;
-  height: 200px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  object-fit: cover;
-  object-position: center;
-  z-index: -1;
 }

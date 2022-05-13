@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { TaskService } from '../task.service';
 
 
@@ -10,7 +12,7 @@ import { TaskService } from '../task.service';
 
 export class TaskListComponent implements OnInit {
 
-  constructor(public taskService: TaskService) { }
+  theme$: Observable<string>;
 
   isUpdating: boolean = false;
 
@@ -20,6 +22,10 @@ export class TaskListComponent implements OnInit {
     x: 0,
     y: 0
   };
+
+  constructor(public taskService: TaskService, private store: Store<{ theme: string }>) {
+    this.theme$ = store.select('theme');
+  }
 
   async ngOnInit(): Promise<void> {
 

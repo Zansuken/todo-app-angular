@@ -1,4 +1,4 @@
-<form action="post" (submit)="createTask($event)">
+<form action="post" (submit)="createTask($event)" [class]="theme$ | async">
   <div class="check-wrapper" [class.ready]="ready">
     <img *ngIf="ready" src="./assets/images/icon-add.svg" alt="ready to send icon">
   </div>
