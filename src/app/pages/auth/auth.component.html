@@ -3,29 +3,34 @@
 </header>
 <main [class]="theme$ | async">
   <div *ngIf="isLogin" [class]="'form-wrapper'">
-    <form name="Login" action="get" [class]="'login-form'" (submit)="userService">
+    <form #gfg="ngForm" name="Login" action="get" [class]="'login-form'">
       <h1>Login</h1>
       <div class="form-group">
-        <input type="text" name="username" placeholder="Username" />
-        <input type="password" name="password" placeholder="Password" />
+        <input #username type="text" name="username" placeholder="Username" ngModel
+          (change)="setUsername(username.value)" />
+        <input #password type="password" name="password" placeholder="Password" ngModel
+          (change)="setPassword(password.value)" />
       </div>
       <div class="submit-wrapper">
-        <input type="submit" value="Login" />
+        <input type="submit" value="Login" (click)="login()" />
       </div>
     </form>
     <button (click)="toggleView()" class="register-redirection-btn">Create an account</button>
   </div>
 
   <div *ngIf="!isLogin" [class]="'form-wrapper'">
-    <form name="Register" action="get" [class]="'register-form'">
+    <form name="Register" action="post" [class]="'register-form'">
       <h1>Register</h1>
       <div class="form-group">
-        <input type="text" name="username" placeholder="Username" />
-        <input type="password" name="password" placeholder="Password" />
-        <input type="password" name="retyped-password" placeholder="Retype password" />
+        <input #regUsername (change)="setUsername(regUsername.value)" type="text" name="username"
+          placeholder="Username" />
+        <input #regPassword (change)="setPassword(regPassword.value)" type="password" name="password"
+          placeholder="Password" />
+        <input #regPasswordCheck (change)="setPasswordCheck(regPasswordCheck.value)" type="password"
+          name="password-check" placeholder="Retype password" />
       </div>
       <div class="submit-wrapper">
-        <input type="submit" value="Register" />
+        <input type="submit" value="Register" (click)="register()" />
       </div>
     </form>
     <button (click)="toggleView()" class="register-redirection-btn">Already have an account?</button>

@@ -14,6 +14,8 @@ export class CreateTaskComponent implements OnInit {
 
   ready: boolean = false;
 
+  newTask: string = '';
+
   constructor(private taskService: TaskService, private store: Store<{ theme: string }>) {
     this.theme$ = this.store.select('theme');
   }
@@ -23,16 +25,16 @@ export class CreateTaskComponent implements OnInit {
 
   }
 
-  handleSearchChange(event: any) {
-    this.ready = event.target.value.length > 0;
+  addNewTaskValue(task: string) {
+    if (task.length > 0) this.newTask = task
+    return
   }
 
   async createTask(event: any) {
     event.preventDefault();
     const form = event.target;
-    const title = form.title.value;
     const task: Task = {
-      title: title,
+      title: this.newTask,
       completed: false,
     };
 

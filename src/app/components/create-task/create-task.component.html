@@ -3,5 +3,5 @@
     <img *ngIf="ready" src="./assets/images/icon-add.svg" alt="ready to send icon">
   </div>
 
-  <input name="title" type="text" (input)="handleSearchChange($event)" placeholder="Add a new task...">
+  <input #task name="title" type="text" (keydown.enter)="addNewTaskValue(task.value)" placeholder="Add a new task...">
 </form>

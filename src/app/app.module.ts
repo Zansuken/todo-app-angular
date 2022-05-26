@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module'; // CLI imports AppRoutingModule
+import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { NavComponent } from './components/nav/nav.component';
 import { SettingsComponent } from './pages/settings/settings.component';
@@ -31,6 +32,7 @@ import { ThemeComponent } from './theme/theme.component';
     AppRoutingModule, // CLI adds AppRoutingModule to the AppModule's imports array
     HttpClientModule,
     StoreModule.forRoot({ theme: themeReducer }),
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

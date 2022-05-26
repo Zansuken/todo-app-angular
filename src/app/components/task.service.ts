@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
+import { User, UserService } from './user.service';
+import { environment } from 'src/environments/environment';
 
 
 export interface Task {
@@ -8,7 +10,7 @@ export interface Task {
   title?: string;
   description?: string;
   completed?: boolean;
-  user?: string;
+  user?: User;
   updating?: boolean;
 }
 
@@ -17,12 +19,16 @@ export interface Task {
 })
 export class TaskService {
 
+
   constructor(
-    private httpClient: HttpClient) { }
+    private httpClient: HttpClient,
+    private userService: UserService) { }
 
-  url: string = 'https://zansuken-todo-server.herokuapp.com/tasks';
+  currentUser: User = this.userService.user;
 
-  tasks: any[] = [];
+  url: string = environment.userUrl;
+
+  tasks: Task[] = this.userService.user.tasks;
 
   activeFilter: string = 'all';
 
@@ -53,24 +59,30 @@ export class TaskService {
   }
 
   async getTasks(): Promise<Task[]> {
-    return lastValueFrom(this.httpClient.get<Task[]>(this.url));
+    return this.tasks;
   }
 
   async createTask(task: Task): Promise<Task> {
-    const newTask = await lastValueFrom(this.httpClient.post<Task>(this.url, task))
 
-    if (newTask.title && newTask.title?.length > 0) {
-      console.log(newTask.title);
+    this.userService.addTask(task);
+
+    return task
+
+    // const newTask = await lastValueFrom(this.httpClient.post<Task>(this.url, task))
+
+    // if (newTask.title && newTask.title?.length > 0) {
+    //   console.log(newTask.title);
 
 
-      this.tasks.push(newTask);
+    //   this.tasks.push(newTask);
 
-      this.newArray = [...this.tasks];
+    //   this.newArray = [...this.tasks];
+    //   this.userService.updateUser(this.currentUser._id, this.newArray);
 
-      return newTask
-    } else {
-      return task
-    }
+    //   return newTask
+    // } else {
+    //   return task
+    // }
   }
 
   async completeTask(task: Task): Promise<void> {

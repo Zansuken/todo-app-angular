@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { lastValueFrom } from 'rxjs';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { Task } from './task.service';
+import { Router } from '@angular/router';
 
 export interface User {
-  _id?: string;
-  username?: string;
-  password?: string;
+  _id: string;
+  username: string;
+  password: string;
+  tasks: Task[];
 }
 
 @Injectable({
@@ -13,56 +17,108 @@ export interface User {
 })
 export class UserService {
 
-  constructor(private httpClient: HttpClient) { }
+  userFound: boolean = false;
 
-  url: string = 'https://zansuken-todo-server.herokuapp.com/users';
+  user: User = {
+    _id: '',
+    username: '',
+    password: '',
+    tasks: []
+  };
 
-  loginUser: User = {};
+  userId: string = '';
 
-  async getUsers(): Promise<User[]> {
-    return lastValueFrom(this.httpClient.get<User[]>(this.url));
+  constructor(private httpClient: HttpClient,
+    private router: Router) { }
+
+  getUser(): Observable<User> {
+    return this.httpClient.get<User>(environment.userUrl);
   }
 
-  async createUser(user: User): Promise<User> {
-    const newUser = await lastValueFrom(this.httpClient.post<User>(this.url, user))
-    this.loginUser = newUser;
-    return newUser;
+  getAllUsers() {
+    return this.httpClient.get<User[]>(environment.userUrl);
   }
 
-  async login(user: User): Promise<User> {
-    const loginUser = await lastValueFrom(this.httpClient.post<User>(this.url + '/login', user))
-    this.loginUser = loginUser;
-    return loginUser;
+  login(pUSername: string, pPassword: string) {
+
+    return new Observable<boolean>(observer => {
+
+      this.getAllUsers().subscribe(result => {
+        const user = result.find(user => user.username === pUSername && user.password === pPassword);
+
+        console.log(user);
+
+        if (user) {
+          this.userFound = true;
+          this.user = user;
+          observer.next(true);
+          observer.complete();
+        } else {
+          this.userFound = false;
+          observer.next(false);
+          observer.complete();
+        }
+      }
+        , error => {
+          observer.next(false);
+        }
+      );
+    })
   }
 
-  async logout(): Promise<User> {
-    const logoutUser = await lastValueFrom(this.httpClient.post<User>(this.url + '/logout', this.loginUser))
-    this.loginUser = logoutUser;
-    return logoutUser;
+  logOut() {
+    return new Observable<boolean>(observer => {
+      this.httpClient.get(environment.userUrl).subscribe(result => {
+        observer.next(true);
+        observer.complete();
+      }, error => {
+        observer.error(false);
+        observer.complete();
+      });
+    })
   }
 
-  async getLoginUser(): Promise<User> {
-    return this.loginUser;
+  register(pUsername: string, pPassword: string, pPasswordCheck: string) {
+    const registerData = {
+      username: pUsername,
+      password: pPassword,
+      passwordCheck: pPasswordCheck,
+      tasks: <Task>[]
+    };
+
+    if (pPassword !== pPasswordCheck) {
+      return new Observable<boolean>(observer => {
+        observer.error(false);
+        observer.complete();
+      })
+    }
+
+    return new Observable<boolean>(observer => {
+      this.httpClient.post<User>(environment.userUrl, registerData).subscribe(result => {
+        observer.next(true);
+        observer.complete();
+      }, error => {
+        observer.error(false);
+        observer.complete();
+      });
+    })
   }
 
-  async updateUser(user: User): Promise<User> {
-    const updatedUser = await lastValueFrom(this.httpClient.put<User>(this.url + '/' + user._id, user))
-    this.loginUser = updatedUser;
-    return updatedUser;
+  addTask(task: Task) {
+    this.userId = (this.router.url).substring(6)
+    this.getAllUsers().subscribe(result => {
+      for (const user of result) {
+        if (user._id === this.userId) {
+          user.tasks.push(task);
+          this.httpClient.put<User>(environment.userUrl + `/${this.userId}`, user).subscribe(result => {
+            console.log(result);
+          }
+            , error => {
+              console.log(error);
+            }
+          );
+        }
+      }
+    })
   }
-
-  async deleteUser(user: User): Promise<User> {
-    const deletedUser = await lastValueFrom(this.httpClient.delete<User>(this.url + '/' + user._id))
-    this.loginUser = deletedUser;
-    return deletedUser;
-  }
-
-  async getUser(user: User): Promise<User> {
-    return lastValueFrom(this.httpClient.get<User>(this.url + '/' + user._id));
-  }
-
-  async getUserByUsername(username: string): Promise<User> {
-    return lastValueFrom(this.httpClient.get<User>(this.url + '/username/' + username));
-  }
-
 }

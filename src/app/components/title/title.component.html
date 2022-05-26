@@ -1,2 +1,7 @@
-<h1>TODO</h1>
-<app-theme></app-theme>
+<div class="header-wrapper">
+  <div class="title-wrapper">
+    <h1>TODO</h1>
+    <app-theme></app-theme>
+  </div>
+  <button *ngIf="this.isUserLoggedIn" class="logout-btn" (click)="logOut()">Log out</button>
+</div>
